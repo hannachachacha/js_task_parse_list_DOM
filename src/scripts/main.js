@@ -32,3 +32,6 @@ function sortList(list) {
 }
 
 sortList(employeeList);
+
+const employeesArray = getEmployees(employeeList);
+console.log(employeesArray);
