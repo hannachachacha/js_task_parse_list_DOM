@@ -2,17 +2,33 @@
 
 const employeeList = document.querySelector('ul');
 
-function sortList(list) {
+function getEmployees(list) {
   const listItems = [...list.querySelectorAll('li')];
 
-  function getSalary(li) {
-    return Number(li.dataset.salary.replace(/[$,]/g, ''));
-  }
+  return listItems.map((li) => ({
+    name: li.textContent.trim(),
+    position: li.dataset.position,
+    salary: Number(li.dataset.salary.replace(/[$,]/g, '')),
+    age: Number(li.dataset.age),
+  }));
+}
 
-  listItems.sort((a, b) => getSalary(b) - getSalary(a));
+function sortList(list) {
+  const employees = getEmployees(list);
+
+  employees.sort((a, b) => b.salary - a.salary);
 
   list.innerHTML = '';
-  listItems.forEach((li) => list.appendChild(li));
+
+  employees.forEach((emp) => {
+    const li = document.createElement('li');
+
+    li.textContent = emp.name;
+    li.dataset.position = emp.position;
+    li.dataset.salary = emp.salary;
+    li.dataset.age = emp.age;
+    list.appendChild(li);
+  });
 }
 
 sortList(employeeList);
